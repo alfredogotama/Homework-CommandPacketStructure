@@ -3,8 +3,8 @@
             double Pos;
             double Velos;
             double Acc;
-            u_int8 mode
-            u_int8 ID
+            uint8_t mode
+            uint8_t ID
             double lambda
             double CMD
             
