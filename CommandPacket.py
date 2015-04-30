@@ -42,12 +42,12 @@ class udp_header(BigEndianStructure):
 class ROBOT_JOINT_REF(Structure):
 	_pack_ = 1
 	_fields_ = [("Pos",c_double),
-				("Velos",c_double),
-				("Acc",c_double),
-				("mode",c_uint8),
-				("ID",c_uint8),
-				("lambda",c_double),
-				("CMD",c_double)]
+		   ("Velos",c_double),
+		   ("Acc",c_double),
+		   ("mode",c_uint8),
+		   ("ID",c_uint8),
+		   ("lambda",c_double),
+		   ("CMD",c_double)]
 
 
 def packet_handler(pkt_data):
