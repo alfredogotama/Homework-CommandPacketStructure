@@ -5,7 +5,7 @@ import pickle
 
 
 IP = "127.0.0.1"
-PORT = 5005
+PORT = 5010
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #TCP SEND
 sock.connect((IP, PORT))
