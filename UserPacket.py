@@ -41,13 +41,13 @@ class udp_header(BigEndianStructure):
 				
 class ROBOT_JOINT_REF(Structure):
 	_pack_ = 1
-	_fields_ = [("Pos",c_double),
-		   ("Velos",c_double),
-		   ("Acc",c_double),
+	_fields_ = [("pos",c_double),
+		   ("velocity",c_double),
+		   ("acc",c_double),
 		   ("mode",c_uint8),
 		   ("ID",c_uint8),
-		   ("lambda",c_double),
-		   ("CMD",c_double)]
+		   ("lammbda",c_double),
+		   ("cmd",c_double)]
 
 
 def packet_handler(pkt_data):
@@ -98,6 +98,69 @@ def main(packet_file):
     pkt_data = ctypes.c_buffer(data)
     packet_handler(pkt_data)
 
+maxval = 1
+minval = 0
+
+getmsg = '0'
+setmsg = '1'
+
+pos = '0001'
+velos = '0010'
+acc = '0011'
+mode = '0100'
+ID = '0101'
+lammbda = '0110'
+cmd = '0111'
+#torque = '1000'
+#maxtorque = '1001'
+#motID = '1010'
+
+def getval(msg):
+	packet = getmsg + msg
+	sock.send(packet)
+	print 'sent: ', packet
+	data = sock.recv(1024)
+	return int(data,2)
+
+def setval(msg, val):
+	if (val > maxval):
+		val = maxval
+	if (val < minval):
+		val = minval
+	value = val*15
+	packet = setmsg + msg + bin(value)
+	sock.send(packet)
+
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         main(sys.argv[1])
+    while(True):
+	msgtype = input("Get (0) or Set(1)")
+	msgvar = input("enter variable(vel = 0001, acel = 0010, etc): ")
+	if msgvar == 0001:
+		msg = pos
+	if msgvar == 0010:
+		msg = velocity
+	if msgvar == 0011:
+		msg = acc
+	if msgvar == 0100:
+		msg = mode
+	if msgvar == 0101:
+		msg = ID
+	if msgvar == 0111:
+		msg = lammbda
+	if msgvar = 0111:
+		msg = cmd
+	#if msgvar = 1000:
+	#	msg = torque
+	#if msgvar = 1001:
+	#	msg = maxtorque
+	#if msgvar = 1010
+	#	msg = motID
+
+	if (msgtype == 0):
+		print "received: ", getval(msg)
+	if (msgtype == 1):
+		msgvalue = input("enter value: ")
+		setval(msg,msgvalue)
+	time.sleep(.01)
