@@ -4,13 +4,13 @@
 import sys
 import ctypes
 import socket
+from ctypes import * c_ushort, c_ubyte, c_uint8, c_double
 
-from ctypes import *
-u_short = c_ushort
-u_char = c_ubyte
-uint8_t = c_uint8
-double = c_double
+IP = "127.0.0.1"
+PORT = 5010
 
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #TCP SEND
+sock.connect((IP, PORT))
 
 class ip_address(Structure):
     _fields_ = [("byte1", u_char),
